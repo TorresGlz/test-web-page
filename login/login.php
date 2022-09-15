@@ -1,6 +1,6 @@
 <?php 
  //Conexion con la base de datos.
- $conexion= new mysqli("localhost","root", "");
+ $conexion= new mysqli("localhost","root", "1234");
    
  if($conexion->connect_errno){
       echo "Fallo al conectar a MySQL:(". $conexion->connect_errno.")";
