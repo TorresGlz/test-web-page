@@ -9,7 +9,7 @@ $result=mysqli_query($con, $query);
 $rows=mysqli_num_rows($result);
 
 if($rows){
-    header("location:newpage.php");
+    header("location:newpage.html");
 }else{
     ?>
     <?php
