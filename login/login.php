@@ -13,11 +13,7 @@
  $password=$_POST["txtpass"];
 
  //Consulta del usuario y el password
- $consulta="SELECT usuario,password FROM usuario 
- WHERE usuario='$nombre' and password='$password'";
- if($query= $conexion->query($consulta)){
- $row=$query->fetch_array(); 
- $nr =$query->num_rows; 
+
  //Si existe el usuario lo va a redireccionar a la pagina de Bienvenida.
  if(1 == 1){ 
    header ("Location:alumno.php"); 
@@ -26,7 +22,7 @@
  else if($nr <= 0) { 
                header("Location:index.html"); 
  }  
- }
+ 
  else{
  echo $conexion->error;  
  }
