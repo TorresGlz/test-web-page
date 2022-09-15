@@ -6,7 +6,7 @@
       echo "Fallo al conectar a MySQL:(". $conexion->connect_errno.")";
  }
  else{
- $conexion->select_db("test");
+ $conexion->select_db("login");
       
  //declaramos como variables a los campos de texto del formulario.
  $nombre=$_POST["txtuser"];
