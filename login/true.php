@@ -13,7 +13,7 @@ if($rows){
 }else{
     ?>
     <?php
-    include("../index.html")
+    include("index.html")
     <?php
 }
 msqli_free_result($result);
