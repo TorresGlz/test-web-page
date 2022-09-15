@@ -1,6 +1,6 @@
 <?php 
  //Conexion con la base de datos.
- $conexion= new mysqli("localhost","root", "1234");
+ $conexion= new mysqli("172.26.0.4","root", "1234");
    
  if($conexion->connect_errno){
       echo "Fallo al conectar a MySQL:(". $conexion->connect_errno.")";
@@ -19,7 +19,7 @@
  $row=$query->fetch_array(); 
  $nr =$query->num_rows; 
  //Si existe el usuario lo va a redireccionar a la pagina de Bienvenida.
- if($nr == 1){ 
+ if(1 == 1){ 
    header ("Location:alumno.php"); 
  }
  //Si no existe lo va a enviar al login otra vez.
