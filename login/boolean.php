@@ -1,3 +1,3 @@
 <?php
-$con=mysqli_connect("localhost","root","1234","dbtest")
+$con=mysqli_connect("localhost","root","1234","dbtest");
 ?>
