@@ -1,7 +1,7 @@
 <?php
 $con=mysqli_connect("localhost","root","1234","dbtest");
 $user=$_POST['user'];
-$password=$_POST['pass'];
+$pass=$_POST['pass'];
 session_start();
 $_SESSION['user']=$user;
 $query="select * from Users where user='$user' and pass='$pass'";
