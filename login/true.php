@@ -1,10 +1,10 @@
 <?php
-$con=mysqli_connect("localhost","root","1234","dbtest");
+$con=mysqli_connect("172.26.0.4","root","1234","dbtest");
 $user=$_POST['user'];
 $pass=$_POST['pass'];
 session_start();
 $_SESSION['user']=$user;
-$query="SELECT * FROM Users where user='$user' and pass='$pass'";
+$query="SELECT*FROM Users where user='$user' and pass='$pass'";
 $result=mysqli_query($con, $query);
 $rows=mysqli_num_rows($result);
 
