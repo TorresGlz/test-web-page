@@ -1,5 +1,5 @@
 <?php
-$con=mysqli_connect("172.26.0.4","root","1234","dbtest");
+$con=mysqli_connect("172.26.0.4","root","12345","dbtest");
 $user=$_POST['user'];
 $pass=$_POST['pass'];
 session_start();
