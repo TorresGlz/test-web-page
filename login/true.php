@@ -18,5 +18,5 @@ if($rows){
     <h1>Error</h1>
     <?php
 }
-msqli_free_result($result);
+mysqli_free_result($result);
 mysqli_close($con);
