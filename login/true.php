@@ -14,6 +14,8 @@ if($rows){
     ?>
     <?php
     include("index.php")
+    ?>
+    <h1>Error</h1>
     <?php
 }
 msqli_free_result($result);
