@@ -1,0 +1,112 @@
+---
+- hosts: all
+  gather_facts: no
+  become: yes
+  tasks:
+     - name: "Actualización de repositorios"
+       apt:
+         update_cache: yes
+         cache_valid_time: 3600
+
+     - name: "Instalación de requisitos a su ultima actualización"
+       apt: 
+        name: [ 'aptitude' ]
+        state: latest  
+
+     - name: "Instalación de MySQL, NginX, Apache, PhP"
+       apt:
+         name: [ 'nginx', 'apache2', 'mysql-server', 'python3-pymysql', 'php-fpm', 'php-mysql']
+         state: latest
+         
+     - name: "Establecer un archivo de configuración para Nginx"
+       template:
+         src: templates/site.conf.j2
+         dest: /etc/nginx/sites-available/www.jtorres.com
+         
+     - name: "Crear el directorio para la pagina web"
+       file:
+         path: /var/www/{{ dominio }}
+         state: directory
+         mode: '0755'
+         owner: "{{ ansible_user }}"
+         group: "{{ ansible_user }}"
+         
+     - name: "Clonar repositorio de la pagina web"
+       git:
+         repo: https://github.com/TorresGlz/test-web-page.git
+         dest: /var/www/{{ dominio }}
+         
+     - name: "Copiar el archivo site.conf a Nginx"
+       template:
+          src: site.conf.j2
+          dest: /etc/nginx/sites-enabled/{{ dominio }}
+          owner: root
+          group: root
+          mode: '0644'
+       notify: reload nginx
+         
+       
+     - name: "Eliminamos el sitio por definido de Nginx"
+       file:
+         path: /etc/nginx/sites-enabled/default
+         state: absent
+       notify: restart nginx
+       
+#     - name: "Establecer el usuario y la contraseña para la base de datos(solo hacer una vez la task)"
+#       mysql_user:
+#        name: root
+#        password: "1234"
+#        login_unix_socket: /var/run/mysqld/mysqld.sock
+
+     - name: "Remover todas las cuentas anonimas de mysql"
+       mysql_user:
+        name: ''
+        host_all: yes
+        state: absent
+        login_user: root
+        login_password: "1234"
+        
+     - name: "Eliminar la base de datos test"
+       mysql_db:
+        name: test
+        state: absent
+        login_user: root
+        login_password: "1234"
+        
+     - name: "Creamos la nueva base de datos" 
+       mysql_db: 
+            name: dbtest
+            state: present 
+            login_user: root 
+            login_password: "1234"
+            
+     - name: "Copiamos el script a una nueva ubicación"
+       copy:
+         src: Recursos/script.sql
+         dest: /var/www
+            
+     - name: "Importamos y ejecutamos el script de la bd"
+       mysql_db: 
+          name: dbtest
+          state: import
+          target: /var/www/script.sql
+          login_password: "1234"
+        
+     - name: "Configuración del firewall"
+       ufw:
+        rule: allow
+        port: "80"
+        proto: tcp
+      
+       
+       
+  handlers:
+     - name: reload nginx
+       service:
+         name: nginx
+         state: reloaded
+
+     - name: restart nginx
+       service:
+         name: nginx
+         state: restarted
